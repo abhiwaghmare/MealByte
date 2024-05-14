@@ -1,6 +1,7 @@
 import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
@@ -23,8 +24,8 @@ const Body = () => {
       json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
     setFilteredRestaurants(
-        json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-      );
+      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
   };
 
   if (filteredRestaurants.length === 0) {
@@ -34,15 +35,27 @@ const Body = () => {
     <div className="body">
       <div className="filter">
         <div className="search-container">
-          <input type="text" className="searchBar" onChange={(e)=>{
-            setSearchText(e.target.value)
-          }} value={searchText}/>
-          <button className="search-button" onClick={()=>{
-            filteredData = listOfRestaurants?.filter(
-                (res) => (res?.info?.name?.toLowerCase()?.includes(searchText?.toLowerCase())
-              ))
-            setFilteredRestaurants(filteredData)
-          }}>Search</button>
+          <input
+            type="text"
+            className="searchBar"
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+            value={searchText}
+          />
+          <button
+            className="search-button"
+            onClick={() => {
+              filteredData = listOfRestaurants?.filter((res) =>
+                res?.info?.name
+                  ?.toLowerCase()
+                  ?.includes(searchText?.toLowerCase())
+              );
+              setFilteredRestaurants(filteredData);
+            }}
+          >
+            Search
+          </button>
         </div>
         <div className="button-container">
           <button
@@ -90,7 +103,12 @@ const Body = () => {
       </div>
       <div className="res-container">
         {filteredRestaurants?.map((restaurant) => (
-          <RestaurantCard key={restaurant?.info?.id} resData={restaurant} />
+          <Link
+            key={restaurant?.info?.id}
+            to={"/restaurants/" + restaurant?.info?.id}
+          >
+            <RestaurantCard resData={restaurant} />
+          </Link>
         ))}
       </div>
     </div>
