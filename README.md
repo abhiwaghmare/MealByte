@@ -1,1 +1,2 @@
-# Namaste React
+# MealByte
+## Food ordering web app
